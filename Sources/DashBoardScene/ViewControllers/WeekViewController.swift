@@ -191,7 +191,7 @@ extension WeekViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardStatusCell", for: indexPath) as? DashboardStatusCell else {
                 return UICollectionViewCell()
             }
-            cell.updateUI(for: selectedDate)
+            cell.updateUI(for: selectedDate, isWeek: true)
             
             return cell
         case .second(_):

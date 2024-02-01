@@ -195,7 +195,7 @@ extension DayViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DashboardStatusCell", for: indexPath) as? DashboardStatusCell else {
                 return UICollectionViewCell()
             }
-            cell.updateUI(for: selectedDate)
+            cell.updateUI(for: selectedDate, isWeek: false)
             
             return cell
         case .second(_):

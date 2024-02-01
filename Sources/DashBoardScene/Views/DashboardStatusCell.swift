@@ -65,27 +65,47 @@ final class DashboardStatusCell: UICollectionViewCell {
         backgroundColor = .black
     }
     
-    func updateUI(for date: Date) {
-        let totalParticipate = PomodoroData.dummyData.filter { $0.participateDate <= date }
+    func updateUI(for date: Date, isWeek: Bool = false) {
+        let startDate: Date
+        let endDate: Date
+        
+        if isWeek {
+            let weekDates = getStartAndEndDateOfWeek(for: date)
+            startDate = weekDates.start
+            endDate = weekDates.end
+        } else {
+            startDate = date
+            endDate = date
+        }
+        
+        let totalParticipate = PomodoroData.dummyData.filter { $0.participateDate >= startDate && $0.participateDate < endDate }
         let participateCount = totalParticipate.count
         
         let filteredData = PomodoroData.dummyData.filter {
-            Calendar.current.isDate($0.participateDate, inSameDayAs: date)
+            $0.participateDate >= startDate && $0.participateDate < endDate
         }
         let totalSuccessCount = filteredData.filter { $0.success }.count
         let totalFailureCount = filteredData.filter { !$0.success }.count
         
-        participateLabel.text = "참여일  \(participateCount)"
+        participateLabel.text = "참여일 \(participateCount)"
         countLabel.text = "횟수 \(filteredData.count)"
         achieveLabel.text = "달성 \(totalSuccessCount)"
         failLabel.text = "실패 \(totalFailureCount)"
     }
+    
+    private func getStartAndEndDateOfWeek(for date: Date) -> (start: Date, end: Date) {
+        let calendar = Calendar.current
+        guard let weekInterval = calendar.dateInterval(of: .weekOfYear, for: date) else {
+            return (date, date)
+        }
+        let startDate = weekInterval.start
+        let endDate = weekInterval.end
+        return (startDate, endDate)
+    }
 }
 
 // MARK: - DayViewControllerDelegate
-
 extension DashboardStatusCell: DayViewControllerDelegate {
-    
     func dateArrowButtonDidTap(data date: Date) {
         selectedDate = date
     }
