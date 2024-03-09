@@ -56,7 +56,7 @@ final class DashboardPieChartCell: UICollectionViewCell {
             contentView.addSubview($0)
             $0.text = "태그 비율"
             $0.textColor = .pomodoro.blackHigh
-            $0.font = .heading4()
+            $0.font = .pomodoroFont.heading4()
         }
         tagLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()

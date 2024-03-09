@@ -17,8 +17,6 @@
 		213F30532B6BE72300FAF5F2 /* DashboardPieChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213F30522B6BE72300FAF5F2 /* DashboardPieChartCell.swift */; };
 		213F30552B6BE73900FAF5F2 /* DashboardStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213F30542B6BE73900FAF5F2 /* DashboardStatusCell.swift */; };
 		215A67852B8A1CA900ED9FA7 /* PomodoroDesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 215A67842B8A1CA900ED9FA7 /* PomodoroDesignSystem */; };
-		217651642B94CB5900121AB2 /* BMHANNA_11yrs_otf.otf in Resources */ = {isa = PBXBuildFile; fileRef = 217651622B94CB5900121AB2 /* BMHANNA_11yrs_otf.otf */; };
-		217651692B94D9EE00121AB2 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 217651682B94D9EE00121AB2 /* Pretendard-Regular.otf */; };
 		21B21B842B73E050008FFDCB /* DashboardBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B21B832B73E050008FFDCB /* DashboardBaseViewController.swift */; };
 		21D85CCD2B831E5B00E2FAA8 /* BreakViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D85CCC2B831E5B00E2FAA8 /* BreakViewController.swift */; };
 		21D85CD82B84C05A00E2FAA8 /* BreakTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D85CD72B84C05A00E2FAA8 /* BreakTimerViewController.swift */; };
@@ -145,6 +143,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		210FA69D2B9C59D000023AAA /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				217651622B94CB5900121AB2 /* BMHANNA_11yrs_otf.otf */,
+				217651682B94D9EE00121AB2 /* Pretendard-Regular.otf */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		2128D78D2B974182000F573C /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +196,7 @@
 				CEDCA0D82B67D015005C18EA /* Sources */,
 				CEB721922B6DECC7001AB9C1 /* PomodoroTests */,
 				CEDCA0BC2B67CFD8005C18EA /* Products */,
+				210FA69D2B9C59D000023AAA /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -204,6 +212,7 @@
 		CEDCA0D22B67D015005C18EA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2128D78D2B974182000F573C /* Fonts */,
 				CEDCA1332B67E11D005C18EA /* Info.plist */,
 				CEDCA0D32B67D015005C18EA /* LaunchScreen.storyboard */,
 				CEDCA0D42B67D015005C18EA /* Assets.xcassets */,
@@ -214,7 +223,6 @@
 		CEDCA0D82B67D015005C18EA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				2128D78D2B974182000F573C /* Fonts */,
 				21D85CCE2B83258300E2FAA8 /* BreakScene */,
 				CEDCA0D92B67D015005C18EA /* SettingsScene */,
 				CEDCA0DF2B67D015005C18EA /* App */,
@@ -439,8 +447,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				217651642B94CB5900121AB2 /* BMHANNA_11yrs_otf.otf in Resources */,
-				217651692B94D9EE00121AB2 /* Pretendard-Regular.otf in Resources */,
 				CE4F2B032B6DE0D7000E5420 /* .swiftlint.yml in Resources */,
 				CEDCA1002B67D015005C18EA /* README.md in Resources */,
 				2128D7902B9741A6000F573C /* Pretendard-Regular.otf in Resources */,
@@ -532,7 +538,6 @@
 				CEDCA1072B67D015005C18EA /* TimeSettingViewController.swift in Sources */,
 				213F30552B6BE73900FAF5F2 /* DashboardStatusCell.swift in Sources */,
 				4DC2298A2B7E2C0900D06ABB /* TagConfigurationViewController.swift in Sources */,
-				217651612B94B95400121AB2 /* UIFont.swift in Sources */,
 				CEDCA1042B67D015005C18EA /* DataResetModalViewController.swift in Sources */,
 				CEDCA1142B67D015005C18EA /* MockData.swift in Sources */,
 				CEDCA1102B67D015005C18EA /* DashBoardTabViewController.swift in Sources */,

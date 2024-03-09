@@ -62,7 +62,7 @@ class DashboardBaseViewController: UIViewController {
         $0.text = dateFormatter.string(from: selectedDate)
         $0.textAlignment = .center
         $0.textColor = .pomodoro.blackHigh
-        $0.font = .heading2(size: 17.44)
+        $0.font = .pomodoroFont.heading2(size: 17.44)
     }
 
     private lazy var previousButton = UIButton().then {

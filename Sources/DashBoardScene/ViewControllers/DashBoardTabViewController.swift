@@ -6,6 +6,7 @@
 //  Copyright © 2023 io.hgu. All rights reserved.
 //
 
+import PomodoroDesignSystem
 import SnapKit
 import UIKit
 
@@ -47,7 +48,7 @@ final class DashBoardTabViewController: UIViewController {
         let appName = UILabel().then {
             $0.text = "뽀모도로"
             $0.textColor = .pomodoro.primary900
-            $0.font = .text1(size: 15.27)
+            $0.font = .pomodoroFont.text1(size: 15.27)
         }
 
         appIconStackView.then {
@@ -66,17 +67,16 @@ final class DashBoardTabViewController: UIViewController {
             view.addSubview($0)
             $0.text = "나의 통계"
             $0.textColor = .pomodoro.blackHigh
-            $0.font = .heading3(size: 18)
+            $0.font = .pomodoroFont.heading3(size: 18)
             $0.snp.makeConstraints { make in
                 make.centerX.equalToSuperview()
                 make.top.equalTo(appIconStackView.snp.bottom).offset(20)
             }
         }
-
         totalParticipateDate.then {
             view.addSubview($0)
             $0.text = "총 \(totalDate)일 뽀모도로 하셨어요!"
-            $0.font = .heading3(size: 15.7)
+            $0.font = .pomodoroFont.heading3(size: 15.7)
             $0.textColor = .pomodoro.primary900
             $0.snp.makeConstraints { make in
                 make.top.equalTo(titleLabel.snp.bottom).offset(20)
@@ -100,11 +100,11 @@ final class DashBoardTabViewController: UIViewController {
         segmentedControl.layer.cornerRadius = 50
         let normalTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.pomodoro.blackHigh,
-            .font: UIFont.heading5(size: 15.7)
+            .font: UIFont.pomodoroFont.heading5(size: 15.7)
         ]
         let selectedTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.white,
-            .font: UIFont.heading5(size: 15.7)
+            .font: UIFont.pomodoroFont.heading5(size: 15.7)
         ]
         segmentedControl.setTitleTextAttributes(normalTextAttributes, for: .normal)
         segmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
