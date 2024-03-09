@@ -12,10 +12,11 @@
 		14DB05DB2B8D0629007AA0A3 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 14DB05DA2B8D0629007AA0A3 /* Realm */; };
 		14DB05DD2B8D0629007AA0A3 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 14DB05DC2B8D0629007AA0A3 /* RealmSwift */; };
 		14FE3C2A2B8DD380006D8C78 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB05DE2B8D06AC007AA0A3 /* DatabaseManager.swift */; };
+		2128D7902B9741A6000F573C /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2128D78E2B9741A6000F573C /* Pretendard-Regular.otf */; };
+		2128D7912B9741A6000F573C /* BMHANNA_11yrs_otf.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2128D78F2B9741A6000F573C /* BMHANNA_11yrs_otf.otf */; };
 		213F30532B6BE72300FAF5F2 /* DashboardPieChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213F30522B6BE72300FAF5F2 /* DashboardPieChartCell.swift */; };
 		213F30552B6BE73900FAF5F2 /* DashboardStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213F30542B6BE73900FAF5F2 /* DashboardStatusCell.swift */; };
 		215A67852B8A1CA900ED9FA7 /* PomodoroDesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 215A67842B8A1CA900ED9FA7 /* PomodoroDesignSystem */; };
-		217651612B94B95400121AB2 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217651602B94B95400121AB2 /* UIFont.swift */; };
 		217651642B94CB5900121AB2 /* BMHANNA_11yrs_otf.otf in Resources */ = {isa = PBXBuildFile; fileRef = 217651622B94CB5900121AB2 /* BMHANNA_11yrs_otf.otf */; };
 		217651692B94D9EE00121AB2 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 217651682B94D9EE00121AB2 /* Pretendard-Regular.otf */; };
 		21B21B842B73E050008FFDCB /* DashboardBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B21B832B73E050008FFDCB /* DashboardBaseViewController.swift */; };
@@ -69,9 +70,10 @@
 		0DC41B442B8C9AB7002FB140 /* PomodoroRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroRouter.swift; sourceTree = "<group>"; };
 		0DF629652B691ABA00BFE39F /* TimerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCollectionViewCell.swift; sourceTree = "<group>"; };
 		14DB05DE2B8D06AC007AA0A3 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		2128D78E2B9741A6000F573C /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		2128D78F2B9741A6000F573C /* BMHANNA_11yrs_otf.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMHANNA_11yrs_otf.otf; sourceTree = "<group>"; };
 		213F30522B6BE72300FAF5F2 /* DashboardPieChartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardPieChartCell.swift; sourceTree = "<group>"; };
 		213F30542B6BE73900FAF5F2 /* DashboardStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardStatusCell.swift; sourceTree = "<group>"; };
-		217651602B94B95400121AB2 /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		217651622B94CB5900121AB2 /* BMHANNA_11yrs_otf.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMHANNA_11yrs_otf.otf; sourceTree = "<group>"; };
 		217651682B94D9EE00121AB2 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		21B21B832B73E050008FFDCB /* DashboardBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardBaseViewController.swift; sourceTree = "<group>"; };
@@ -143,14 +145,13 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		2176515F2B94B94B00121AB2 /* Font */ = {
+		2128D78D2B974182000F573C /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				217651622B94CB5900121AB2 /* BMHANNA_11yrs_otf.otf */,
-				217651682B94D9EE00121AB2 /* Pretendard-Regular.otf */,
-				217651602B94B95400121AB2 /* UIFont.swift */,
+				2128D78F2B9741A6000F573C /* BMHANNA_11yrs_otf.otf */,
+				2128D78E2B9741A6000F573C /* Pretendard-Regular.otf */,
 			);
-			path = Font;
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		21D85CCE2B83258300E2FAA8 /* BreakScene */ = {
@@ -213,7 +214,7 @@
 		CEDCA0D82B67D015005C18EA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				2176515F2B94B94B00121AB2 /* Font */,
+				2128D78D2B974182000F573C /* Fonts */,
 				21D85CCE2B83258300E2FAA8 /* BreakScene */,
 				CEDCA0D92B67D015005C18EA /* SettingsScene */,
 				CEDCA0DF2B67D015005C18EA /* App */,
@@ -442,7 +443,9 @@
 				217651692B94D9EE00121AB2 /* Pretendard-Regular.otf in Resources */,
 				CE4F2B032B6DE0D7000E5420 /* .swiftlint.yml in Resources */,
 				CEDCA1002B67D015005C18EA /* README.md in Resources */,
+				2128D7902B9741A6000F573C /* Pretendard-Regular.otf in Resources */,
 				CEDCA0FE2B67D015005C18EA /* Assets.xcassets in Resources */,
+				2128D7912B9741A6000F573C /* BMHANNA_11yrs_otf.otf in Resources */,
 				CEDCA0FD2B67D015005C18EA /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -817,8 +820,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/HGU-iOS-Study-Group/PomodoroDesignSystem.git";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 0.0.2;
+				branch = main;
+				kind = branch;
 			};
 		};
 		CEDCA11A2B67D0AB005C18EA /* XCRemoteSwiftPackageReference "realm-swift" */ = {
