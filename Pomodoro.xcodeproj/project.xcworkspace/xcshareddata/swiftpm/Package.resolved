@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/HGU-iOS-Study-Group/PomodoroDesignSystem.git",
       "state" : {
-        "revision" : "c4dee77bf7ca34887f01eda7d9366d7cbd9b186d",
-        "version" : "0.0.3"
+        "branch" : "main",
+        "revision" : "ec0148f96e93df6aff56bfa12ef52715861529f6"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift.git",
       "state" : {
-        "revision" : "55466ae0fb29c5f21866792f05c1fc0c590d7c29",
-        "version" : "10.47.0"
+        "revision" : "7a2f7d41ffa409978a6b5e475c2ee57f08222705",
+        "version" : "10.48.0"
       }
     },
     {
