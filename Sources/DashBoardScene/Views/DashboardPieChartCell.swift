@@ -86,7 +86,7 @@ final class DashboardPieChartCell: UICollectionViewCell {
         }
         donutPieChartView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.8)
+            make.width.equalToSuperview().multipliedBy(0.8).priority(.high)
             make.height.equalTo(donutPieChartView.snp.width)
         }
     }
