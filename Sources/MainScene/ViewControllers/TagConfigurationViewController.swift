@@ -18,7 +18,9 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
                                                             target: self,
                                                             action: #selector(dismissModal))
     }
+
     // MARK: 태그명 레이블
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "태그명"
@@ -28,21 +30,21 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
     }()
 
     private lazy var textField: UITextField = {
-            let textField = UITextField()
-            textField.borderStyle = .none
-            textField.placeholder = "ex. 공부"
+        let textField = UITextField()
+        textField.borderStyle = .none
+        textField.placeholder = "ex. 공부"
         textField.font = .pomodoroFont.heading6()
-            textField.textAlignment = .left
-            let bottomLine = UIView()
-            bottomLine.backgroundColor = .black
-            textField.addSubview(bottomLine)
-            bottomLine.snp.makeConstraints { make in
-                make.bottom.equalTo(textField.snp.bottom).offset(10)
-                make.left.right.equalTo(textField)
-                make.height.equalTo(2)
-            }
-            return textField
-        }()
+        textField.textAlignment = .left
+        let bottomLine = UIView()
+        bottomLine.backgroundColor = .black
+        textField.addSubview(bottomLine)
+        bottomLine.snp.makeConstraints { make in
+            make.bottom.equalTo(textField.snp.bottom).offset(10)
+            make.left.right.equalTo(textField)
+            make.height.equalTo(2)
+        }
+        return textField
+    }()
 
     // TODO: 태그 생성 폰트 적용
     private lazy var createTagConfirmButton = PomodoroConfirmButton(title: "태그 생성",
@@ -139,7 +141,7 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
         colorPaletteStackView.spacing = 20
         // 2행 4열
         let rows = [UIStackView(), UIStackView()]
-        rows.forEach { row in
+        for row in rows {
             row.axis = .horizontal
             row.distribution = .fillEqually
             row.spacing = 15
@@ -154,20 +156,19 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
                 $0.snp.makeConstraints { make in
                     make.size.equalTo(CGSize(width: 55, height: 55))
                 }
-                    $0.addTarget(self, action: #selector(colorButtonTapped(_:)), for: .touchUpInside)
-                }
-                // 적절한 행에 버튼 추가
-                if index < 4 {
-                    rows[0].addArrangedSubview(colorButton)
-                } else {
-                    rows[1].addArrangedSubview(colorButton)
-                }
+                $0.addTarget(self, action: #selector(colorButtonTapped(_:)), for: .touchUpInside)
+            }
+            // 적절한 행에 버튼 추가
+            if index < 4 {
+                rows[0].addArrangedSubview(colorButton)
+            } else {
+                rows[1].addArrangedSubview(colorButton)
             }
         }
+    }
 
     // TODO: color 버튼 클릭시 정보 전달 로직, 화면상 나타나는 표시(컬러 변경이 더 쉬울 것 같음)
-        @objc private func colorButtonTapped(_ sender: UIButton) {
-            guard let selectedColor = sender.backgroundColor else { return }
-        }
-
+    @objc private func colorButtonTapped(_ sender: UIButton) {
+        guard let selectedColor = sender.backgroundColor else { return }
     }
+}

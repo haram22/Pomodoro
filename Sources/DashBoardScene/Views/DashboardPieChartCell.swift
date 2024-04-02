@@ -170,7 +170,8 @@ final class DashboardPieChartCell: UICollectionViewCell {
             let labelStackView = UIStackView()
 
             tagLabel.font = .pomodoroFont.heading5()
-            tagLabel.textColor = .pomodoro.blackHigh
+//            tagLabel.textColor = .pomodoro.blackHigh
+            tagLabel.textColor = .red
             timeRatioTextLabel.font = .pomodoroFont.text4()
             timeRatioTextLabel.textColor = .pomodoro.blackHigh
             labelStackView.axis = .horizontal

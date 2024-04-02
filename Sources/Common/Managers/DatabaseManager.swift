@@ -24,6 +24,7 @@ final class DatabaseManager: DataBase {
         print("Database Init")
         do {
             database = try Realm()
+            createPomodoro(tag: "study")
         } catch {
             print("Error initalizing Realm: \(error)")
         }
