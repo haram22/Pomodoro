@@ -66,7 +66,6 @@ final class TagModalViewController: UIViewController {
 
     private lazy var tagSettingCompletedButton = PomodoroConfirmButton(
         title: "설정 완료",
-//        font: .pomodoroFont.heading2(), // TODO: font 변경
         didTapHandler: didTapSettingCompleteButton
     )
 
@@ -112,16 +111,11 @@ final class TagModalViewController: UIViewController {
             make.width.equalToSuperview().multipliedBy(0.8)
         }
         tagSettingCompletedButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(45)
-            make.trailing.equalToSuperview().offset(-45)
-            make.bottom.equalToSuperview().offset(-(view.bounds.height * 0.2))
+            make.centerX.equalToSuperview()
+            make.top.equalTo(tagsStackView.snp.bottom).offset(106)
+            make.width.equalTo(212)
+            make.height.equalTo(60)
         }
-        // TODO: 진세 확인버튼 제약조건 참고하기
-//        confirmButton.snp.makeConstraints { make in
-//                   make.centerX.equalToSuperview()
-//                   make.bottom.equalToSuperview().offset(-170)
-//                   make.width.equalTo(212)
-//           }
     }
 
     private func addTagsToStackView() {
