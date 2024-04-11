@@ -28,6 +28,9 @@ included:
 
 excluded:
   - Resources
+  
+disabled_rules:
+  - trailing_comma
 
 trailing_newline: error
 trailing_semicolon: error

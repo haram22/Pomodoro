@@ -203,8 +203,8 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
                         isTimerEffect: true
                     )
                 )
-                database.write(Tag(tagName: "집중", colorIndex: "one", position: 0))
-                database.write(Tag(tagName: "업무", colorIndex: "two", position: 1))
+//                database.write(Tag(tagName: "집중", colorIndex: "one", position: 0))
+//                database.write(Tag(tagName: "업무", colorIndex: "two", position: 1))
                 updateTableViewRows()
             }
         case .timerEffect:
