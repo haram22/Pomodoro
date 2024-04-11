@@ -77,7 +77,9 @@ final class TagModalViewController: UIViewController {
         setupViews()
         addTagsToStackView()
 
-        let tags = database.read(Tag.self)
+        let tags = database.write(Tag())
+
+        let tagss = database.read(Tag.self)
 //        if tags.isEmpty {
 //            database.write(
 //                Option(
@@ -241,5 +243,7 @@ extension TagModalViewController: TagCreationDelegate {
     func createTag(tag: String) {
         TagCollectionViewData.data.append(tag)
         // TODO: 추가된 태그 정보값 전달
+        database.write(Tag(tagName: tag, colorIndex: "one", position: 1))
+        print("=====> ", tag)
     }
 }

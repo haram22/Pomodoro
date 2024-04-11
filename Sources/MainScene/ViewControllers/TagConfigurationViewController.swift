@@ -11,6 +11,7 @@ import Then
 import UIKit
 
 final class TagConfigurationViewController: UIViewController, UITextFieldDelegate {
+    let database = DatabaseManager.shared
     // TODO: navigationbar 타이틀 왜 적용안되는지 확인
     private func configureNavigationBar() {
         navigationItem.title = "태그 설정"
@@ -74,6 +75,8 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
     }
 
     @objc func saveTagButtonTapped() {
+        let tags = database.write(Tag())
+
         guard let tagText = textField.text, !tagText.isEmpty else {
             print("태그를 입력하세요.")
             PomodoroPopupBuilder()
@@ -81,13 +84,17 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
                 .add(
                     button: .confirm(
                         title: "확인",
-                        action: { /* 확인 동작 */ }
+                        action: { /* 확인 동작 */
+                            self.database.write(Tag(tagName: self.textField.text!, colorIndex: "one", position: 1))
+                        }
                     )
                 )
                 .show(on: self)
             return
         }
         delegate?.createTag(tag: tagText)
+        print("->>>>> ", tagText)
+        database.write(Tag(tagName: tagText, colorIndex: "four", position: 1))
         dismiss(animated: true, completion: nil)
     }
 
