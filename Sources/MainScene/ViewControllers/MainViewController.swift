@@ -269,7 +269,7 @@ extension MainViewController {
             sheet.detents = [
                 .custom { context in
                     context.maximumDetentValue * 0.95
-                }
+                },
             ]
             sheet.preferredCornerRadius = 40
             sheet.prefersScrollingExpandsWhenScrolledToEdge = true

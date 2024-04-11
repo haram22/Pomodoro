@@ -6,14 +6,15 @@
 //  Copyright © 2023 io.hgu. All rights reserved.
 //
 import PomodoroDesignSystem
+import Realm
+import RealmSwift
 import SnapKit
 import Then
 import UIKit
-import Realm
-import RealmSwift
 
 protocol TagCreationDelegate: AnyObject {
-    func createTag(tagName: String, colorIndex: String, position: Int)
+//    func createTag(tagName: String, colorIndex: String, position: Int)
+    func createTag(tag: String)
 }
 
 protocol TagModalViewControllerDelegate: AnyObject {
@@ -135,12 +136,12 @@ final class TagModalViewController: UIViewController {
         let buttonTitlesAndColors = [
             ("명상", UIColor.red),
             ("운동", UIColor.green),
-            ("공부", UIColor.purple)
+            ("공부", UIColor.purple),
         ]
-        
+
 //        database.write(Tag(tagName: "집중", colorIndex: 0, position: 0))
 //        database.write(Tag(tagName: "업무", colorIndex: 1, position: 1))
-//        
+//
         let maxTags = 7
         var currentIndex = 0
         let firstRow = makeRowStackView()
@@ -162,7 +163,7 @@ final class TagModalViewController: UIViewController {
                 secondRow.addArrangedSubview(button)
             case 5 ... 6:
                 thirdRow.addArrangedSubview(button)
-            default: 
+            default:
                 break
             }
         }
@@ -186,6 +187,7 @@ final class TagModalViewController: UIViewController {
         }
 
         // MARK: `-` 버튼 추가
+
         let minusButton = UIButton().then {
             $0.setTitle("-", for: .normal)
             $0.setTitleColor(.black, for: .normal)
@@ -205,6 +207,7 @@ final class TagModalViewController: UIViewController {
         }
 
         // MARK: minusButton에 삭제 액션 추가
+
         minusButton.addTarget(self, action: #selector(deletTag), for: .touchUpInside)
 
         return button
@@ -224,7 +227,6 @@ final class TagModalViewController: UIViewController {
             $0.addTarget(self, action: #selector(presentTagEditViewController), for: .touchUpInside)
         }
     }
-
 
     @objc private func dismissModal() {
         dismiss(animated: true, completion: nil)
@@ -275,13 +277,13 @@ final class TagModalViewController: UIViewController {
 
 // MARK: - TagCreationDelegate
 
-//extension TagModalViewController: TagCreationDelegate {
+// extension TagModalViewController: TagCreationDelegate {
 //    func createTag(tagName: String, colorIndex: String, position: Int) {
 //        // TODO: 추가된 태그 정보값 전달
 //        let tags = DatabaseManager.shared.write(Tag(tagName: "공부", colorIndex: "one", position: 1)
 //        )
 //    }
-//}
+// }
 extension TagModalViewController: TagCreationDelegate {
     func createTag(tag: String) {
         TagCollectionViewData.data.append(tag)

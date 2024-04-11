@@ -23,7 +23,7 @@ final class ColorPaletteViewController: UIViewController {
         .blue,
         .purple,
         .black,
-        .white
+        .white,
     ]
     private lazy var collectionView = UICollectionView(
         frame: .zero,

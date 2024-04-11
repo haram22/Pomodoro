@@ -113,7 +113,7 @@ struct PomodoroData {
                 tagId: "스터디",
                 participateDate: dateFormatter.date(from: "2024-02-07") ?? defaultDate,
                 success: true
-            )
+            ),
         ]
     }
 }

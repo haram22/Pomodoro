@@ -120,11 +120,11 @@ final class DashBoardTabViewController: UIViewController {
         segmentedControl.layer.cornerRadius = 50
         let normalTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.pomodoro.blackHigh,
-            .font: UIFont.pomodoroFont.heading5(size: 15.7)
+            .font: UIFont.pomodoroFont.heading5(size: 15.7),
         ]
         let selectedTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.white,
-            .font: UIFont.pomodoroFont.heading5(size: 15.7)
+            .font: UIFont.pomodoroFont.heading5(size: 15.7),
         ]
         segmentedControl.setTitleTextAttributes(normalTextAttributes, for: .normal)
         segmentedControl.setTitleTextAttributes(selectedTextAttributes, for: .selected)

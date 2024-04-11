@@ -228,7 +228,7 @@ final class DashboardPieChartCell: UICollectionViewCell {
             tagColor.backgroundColor = tagColors[tagId] ?? .gray
             NSLayoutConstraint.activate([
                 tagColor.widthAnchor.constraint(equalToConstant: 15),
-                tagColor.heightAnchor.constraint(equalToConstant: 15)
+                tagColor.heightAnchor.constraint(equalToConstant: 15),
             ])
 
             let timeText = parsingTimes(from: focusTime)
