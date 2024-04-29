@@ -14,7 +14,6 @@ import UIKit
 
 final class TagConfigurationViewController: UIViewController, UITextFieldDelegate {
     // TODO: Realm Tag write
-    private let database = DatabaseManager.shared
 
     private var selectedColorIndex: String?
     private var selectedPosition: Int?
@@ -97,27 +96,49 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
     }
 
     @objc func saveTagButtonTapped() {
-        let tags = database.write(Tag())
-
-        guard let tagText = textField.text, !tagText.isEmpty else {
-            print("태그를 입력하세요.")
+        guard let tagText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !tagText.isEmpty else {
             PomodoroPopupBuilder()
-                .add(body: "태그를 입력해주십시오.")
-                .add(
-                    button: .confirm(
-                        title: "확인",
-                        action: { /* 확인 동작 */
-                            self.database.write(Tag(tagName: self.textField.text!, colorIndex: "one", position: 1))
-                        }
-                    )
-                )
+                .add(body: "태그 이름을 입력해주세요.")
+                .add(button: .confirm(title: "확인", action: { }))
                 .show(on: self)
             return
         }
-        delegate?.createTag(tag: tagText)
-        print("->>>>> ", tagText)
-        database.write(Tag(tagName: tagText, colorIndex: "four", position: 1))
-        dismiss(animated: true, completion: nil)
+
+        do {
+            let existingTag = try RealmService.read(Tag.self).filter("tagName == %@", tagText).first
+            if existingTag != nil {
+                PomodoroPopupBuilder()
+                    .add(title: "태그 중복")
+                    .add(body: "똑같은 태그명이 있어요. \n 다시 작성해주세요.")
+                    .add(button: .confirm(title: "확인", action: { }))
+                    .show(on: self)
+            } else {
+                let newTag = Tag(
+                    tagName: tagText,
+                    colorIndex: selectedColorIndex ?? "defaultColor",
+                    position: calculateNextPosition()
+                )
+                RealmService.write(newTag)
+                delegate?.createTag(tag: tagText, color: selectedColorIndex ?? "defaultColor", position: newTag.position)
+                dismiss(animated: true, completion: nil)
+            }
+        } catch {
+            Log.info("태그 조회 실패: \(error)")
+            PomodoroPopupBuilder()
+                .add(body: "태그를 검증하는 과정에서 오류가 발생했습니다.")
+                .add(button: .confirm(title: "확인", action: { }))
+                .show(on: self)
+        }
+    }
+
+    private func calculateNextPosition() -> Int {
+        do {
+            let tags = try RealmService.read(Tag.self)
+            return (tags.max(ofProperty: "position") as Int? ?? -1) + 1  // 기존 태그 위치의 최대값에서 1을 더함
+        } catch {
+            Log.info("Failed to fetch tags from Realm: \(error)")
+            return 0
+        }
     }
 
     private func setupViews() {
@@ -185,16 +206,16 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
 
     private func setupColorPalette() {
         let colors: [UIColor] = [
-            .pomodoro.tagBackground1,
-            .pomodoro.tagBackground2,
-            .pomodoro.tagBackground3,
-            .pomodoro.tagBackground4,
-            .pomodoro.tagBackground5,
-            .pomodoro.tagBackground6,
-            .pomodoro.tagBackground7,
-            .pomodoro.blackMedium,
+            .pomodoro.tagTypo1,
+            .pomodoro.tagTypo2,
+            .pomodoro.tagTypo3,
+            .pomodoro.tagTypo4,
+            .pomodoro.tagTypo5,
+            .pomodoro.tagTypo6,
+            .pomodoro.tagTypo7,
+            .white,
         ]
-        // colorPaletteStackView 설정
+
         colorPaletteStackView.axis = .vertical
         colorPaletteStackView.distribution = .fillEqually
         colorPaletteStackView.spacing = 20
@@ -207,7 +228,6 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
             colorPaletteStackView.addArrangedSubview(row)
         }
 
-        // 각 행에 색상 버튼 추가
         for (index, color) in colors.enumerated() {
             let colorButton = UIButton().then {
                 $0.backgroundColor = color
@@ -216,10 +236,9 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
                     make.size.equalTo(CGSize(width: 55, height: 55))
                 }
                 $0.addTarget(self, action: #selector(colorButtonTapped(_:)), for: .touchUpInside)
-                $0.tag = index // 각 버튼에 태그 설정
-                print("tag:/(index)")
+                $0.tag = index
+                Log.info("tag:/(index)")
             }
-            // 적절한 행에 버튼 추가
             if index < 4 {
                 rows[0].addArrangedSubview(colorButton)
             } else {
@@ -228,10 +247,35 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
         }
     }
 
-    // TODO: color 버튼 클릭시 정보 전달 로직, 화면상 나타나는 표시(컬러 변경이 더 쉬울 것 같음)
-//    @objc private func colorButtonTapped(_ sender: UIButton) {
-//        self.selectedColorIndex = sender.tag
-//    }
+    @objc private func colorButtonTapped(_ sender: UIButton) {
+        showRingEffect(around: sender, color: sender.backgroundColor ?? .gray)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.removeRingEffect(from: sender)
+        }
+        let index = sender.tag
+        let colorString = indexToString(index)
+        selectedColorIndex = colorString
+    }
+
+    func showRingEffect(around button: UIButton, color: UIColor) {
+        let ringLayer = CAShapeLayer().then {
+            let ringPath = UIBezierPath(ovalIn: button.bounds.insetBy(dx: -10, dy: -10))
+            $0.path = ringPath.cgPath
+            $0.fillColor = UIColor.clear.cgColor
+            $0.strokeColor = color.cgColor
+            $0.lineWidth = 3
+        }
+
+        button.layer.addSublayer(ringLayer)
+        button.layer.setValue(ringLayer, forKey: "ring")
+    }
+
+    func removeRingEffect(from button: UIButton) {
+        if let ringLayer = button.layer.value(forKey: "ring") as? CAShapeLayer {
+            ringLayer.removeFromSuperlayer()
+        }
+    }
 
     // 인덱스를 string으로 변환
     func indexToString(_ index: Int) -> String {
@@ -255,13 +299,6 @@ final class TagConfigurationViewController: UIViewController, UITextFieldDelegat
         default:
             return "unknown"
         }
-    }
-
-    @objc private func colorButtonTapped(_ sender: UIButton) {
-        let index = sender.tag // 버튼의 태그로부터 인덱스 얻기
-        let colorString = indexToString(index) // 인덱스를 문자열로 변환
-        selectedColorIndex = colorString // 변환 문자열을 저장
-        selectedPosition = index
     }
 }
 

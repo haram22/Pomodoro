@@ -4,10 +4,9 @@
 //
 //  Created by 진세진 on 2/26/24.
 //
-
 import UIKit
 
-enum PomodoroTimerStep {
+enum PomodoroTimerStep: Equatable {
     case start
     case focus(count: Int)
     case rest(count: Int)
@@ -21,8 +20,9 @@ protocol PomodoroStepObserver: AnyObject {
 // - MARK: PomodoroStepTimeChage - pomodoroStep의 변화에 따른 스텝단계의 변화와 navigator 관리
 final class PomodoroRouter {
     static let shared = PomodoroRouter()
-    let maxStep = 2
-    static var pomodoroCount: Int = 0
+    private let pomodoroTimeManager = PomodoroTimeManager.shared
+    let maxStep = 3
+    var pomodoroCount: Int = 0
 
     var observers: [PomodoroStepObserver] = []
     var currentStep: PomodoroTimerStep = .start {
@@ -43,11 +43,21 @@ final class PomodoroRouter {
 
     func moveToNextStep(navigationController: UINavigationController) {
         currentStep = checkCurrentStep()
-        print(currentStep)
+        Log.info(currentStep)
         navigatorToCurrentStep(
             currentStep: currentStep,
             navigationController: navigationController
         )
+    }
+
+    func savePomodoroStepCounter() {
+        let data = try? RealmService.read(Pomodoro.self)
+        guard let currentData = data?.last else {
+            return
+        }
+        RealmService.update(currentData) { data in
+            data.phase = self.pomodoroCount
+        }
     }
 
     func navigatorToCurrentStep(
@@ -66,7 +76,7 @@ final class PomodoroRouter {
             pomodoroMainViewController.stepManager.router = self
             navigationController.pushViewController(pomodoroMainPageViewController, animated: true)
         case .rest:
-            if maxStep < PomodoroRouter.pomodoroCount {
+            if maxStep < pomodoroCount {
                 breakTimerViewController.stepManager.router = self
                 navigationController.popToRootViewController(animated: true)
             } else {
@@ -81,55 +91,58 @@ final class PomodoroRouter {
     func checkCurrentStep() -> PomodoroTimerStep {
         switch currentStep {
         case .start:
-            PomodoroRouter.pomodoroCount = 0
-            currentStep = .rest(count: PomodoroRouter.pomodoroCount)
+            pomodoroCount = 0
+            currentStep = .rest(count: pomodoroCount)
         case let .focus(count):
             currentStep = .rest(count: count)
         case var .rest(count):
-            count = PomodoroRouter.pomodoroCount
+            count = pomodoroCount
             if count < maxStep {
-                PomodoroRouter.pomodoroCount += 1
-                currentStep = .focus(count: PomodoroRouter.pomodoroCount)
+                pomodoroCount += 1
+                currentStep = .focus(count: pomodoroCount)
             } else {
                 currentStep = .end
                 currentStep = .start
             }
         case .end:
-            PomodoroRouter.pomodoroCount = 0
+            pomodoroCount = 0
         }
         return currentStep
     }
 }
 
 // - MARK: PomodoroStepTimeChage - pomodoroStep 변화에 따른 시간의 변화를 관리하는 클래스
-
 final class PomodoroStepTimeChange {
     private let pomodoroTimeManager = PomodoroTimeManager.shared
-    private var pomodoroCurrentCount = PomodoroRouter.pomodoroCount
+
+    private let maxStep = PomodoroRouter.shared.maxStep
+    private let stepDataBase = RealmService.self
+    private var pomodoroCurrentCount = PomodoroRouter.shared.pomodoroCount
+
     private var currentStep: PomodoroTimerStep?
-    private let database = DatabaseManager.shared
     private var shortBreakTime: Int?
     private var longBreakTime: Int?
 
     func setUptimeInCurrentStep() {
+        updateCurrentPomodoroStepData()
+        guard let currentStep else { return }
         switch currentStep {
         case .start:
             pomodoroTimeManager.setupCurrentTime(curr: 0)
             pomodoroTimeManager.setupMaxTime(time: 0)
-        case .focus, .rest:
+        case .focus:
+            pomodoroTimeManager.setupCurrentTime(curr: 0)
+        case .rest:
             pomodoroTimeManager.setupCurrentTime(curr: 0)
         case .end:
-            pomodoroTimeManager.setupCurrentTime(curr: 0)
-            pomodoroTimeManager.setupMaxTime(time: 0)
-        case .none:
             pomodoroTimeManager.setupCurrentTime(curr: 0)
             pomodoroTimeManager.setupMaxTime(time: 0)
         }
     }
 
     func setUpBreakTime() -> Int {
-        let options = database.read(Option.self).first ?? Option()
-        if pomodoroCurrentCount < 2 {
+        let options = (try? RealmService.read(Option.self).first) ?? Option()
+        if pomodoroCurrentCount < 3 {
             return options.shortBreakTime
         } else {
             return options.longBreakTime
@@ -137,21 +150,49 @@ final class PomodoroStepTimeChange {
     }
 
     func initPomodoroStep() {
-        PomodoroRouter.pomodoroCount = 0
+        pomodoroCurrentCount = 0
         pomodoroTimeManager.setupMaxTime(time: 0)
         pomodoroTimeManager.setupCurrentTime(curr: 0)
+        currentStep = .start
+        isFailedPomodoroStep()
+    }
+
+    func updateCurrentPomodoroStepData() {
+        let data = (try? RealmService.read(Pomodoro.self).last) ?? Pomodoro()
+        stepDataBase.update(data) { data in
+            data.phase += 1
+            if data.phase == 5 {
+                data.isSuccess = true
+            }
+        }
+    }
+
+    func isFailedPomodoroStep() {
+        let currenttime = pomodoroTimeManager.currentTime
+        let data = (try? RealmService.read(Pomodoro.self).last) ?? Pomodoro()
+        if currenttime < 60, data.phase == 1 {
+            stepDataBase.delete(data)
+        } else {
+            stepDataBase.update(data) { data in
+                data.isSuccess = false
+            }
+        }
     }
 }
 
 extension PomodoroStepTimeChange: PomodoroStepObserver {
+    func didPomodoroStepCounterChange(stepCounter counter: Int) {
+        pomodoroCurrentCount = counter
+    }
+
     func didPomodoroStepChange(to step: PomodoroTimerStep) {
         currentStep = step
     }
 }
 
-// - MARK: PomdoroStepLabel class - pomodorostep에 관한 라벨 표현 변화에 대한 클래스
+// - MARK: PomodoroStepLabel : 현재 스텝을 label로 보여주기
 final class PomodoroStepLabel {
-    private var pomodoroCurrentCount = PomodoroRouter.pomodoroCount
+    private var pomodoroCurrentCount = PomodoroRouter.shared.pomodoroCount
     private var currentStep: PomodoroTimerStep = .start
 
     func setUpLabelInCurrentStep(currentStep: PomodoroTimerStep) -> String {

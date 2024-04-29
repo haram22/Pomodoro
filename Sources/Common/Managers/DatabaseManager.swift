@@ -6,94 +6,96 @@
 //
 
 import Foundation
+import OSLog
 import RealmSwift
 
-protocol DataBase {
-    func read<T: Object>(_ object: T.Type) -> Results<T>
-    func write<T: Object>(_ object: T)
-    func delete<T: Object>(_ object: T)
-    func sort<T: Object>(_ object: T.Type, by keyPath: String, ascending: Bool) -> Results<T>
-}
-
-final class DatabaseManager: DataBase {
-    static let shared = DatabaseManager()
-    private var database: Realm?
-
-    private init() {
-        print("Database Init")
+enum RealmService {
+    static func read<T: Object>(_ object: T.Type) throws -> Results<T> {
         do {
-            database = try Realm()
-            getLocationOfDefaultRealm()
+            let database = try Realm()
+            Log.info("Realm is located at: \(String(describing: database.configuration.fileURL))")
+            return database.objects(object)
         } catch {
-            print("Error initalizing Realm: \(error)")
+            Log.error(error)
+            throw error
         }
     }
 
-    func getLocationOfDefaultRealm() {
-        print("Realm is located at:", database!.configuration.fileURL!)
-    }
-
-    func read<T: Object>(_ object: T.Type) -> Results<T> {
-        database!.objects(object)
-    }
-
-    func createPomodoro(tag: String) {
-        var id = 0
-        if let lastPomodoro = database?.objects(Pomodoro.self).last {
-            id = lastPomodoro.id + 1
-        }
-
-        let pomodoro = Pomodoro(id: id, phase: 1, currentTag: tag, participateDate: Date.now)
-
-        write(pomodoro)
-    }
-
-    func write(_ object: some Object) {
+    static func createPomodoro(tag: String) {
         do {
-            try database!.write {
-                database!.add(object, update: .modified)
+            let database = try Realm()
+            Log.info("Realm is located at: \(String(describing: database.configuration.fileURL))")
+            var id = 0
+            if let lastPomodoro = database.objects(Pomodoro.self).last {
+                id = lastPomodoro.id + 1
             }
-
+            let pomodoro = Pomodoro(id: id, phase: 1, currentTag: tag, participateDate: Date.now)
+            write(pomodoro)
         } catch {
-            print(error)
+            Log.error(error)
         }
     }
 
-    func update<T: Object>(_ object: T, completion: @escaping ((T) -> Void)) {
+    static func write(_ object: some Object) {
         do {
-            try database!.write {
+            let database = try Realm()
+            Log.info("Realm is located at: \(String(describing: database.configuration.fileURL))")
+            try database.write {
+                database.add(object, update: .modified)
+            }
+        } catch {
+            Log.error(error)
+        }
+    }
+
+    static func update<T: Object>(_ object: T, completion: @escaping ((T) -> Void)) {
+        do {
+            let database = try Realm()
+            Log.info("Realm is located at: \(String(describing: database.configuration.fileURL))")
+            try database.write {
                 completion(object)
             }
-
         } catch {
-            print(error)
+            Log.error(error)
         }
     }
 
-    func delete(_ object: some Object) {
+    static func delete(_ object: some Object) {
         do {
-            try database!.write {
-                database!.delete(object)
-                print("Delete Success")
+            let database = try Realm()
+            Log.info("Realm is located at: \(String(describing: database.configuration.fileURL))")
+            try database.write {
+                database.delete(object)
             }
-
         } catch {
-            print(error)
+            Log.error(error)
         }
     }
 
-    func deleteAll() {
+    static func deleteAll() {
         do {
-            try database!.write {
-                database?.deleteAll()
+            let database = try Realm()
+            Log.info("Realm is located at: \(String(describing: database.configuration.fileURL))")
+            try database.write {
+                database.deleteAll()
             }
-
         } catch {
-            print(error)
+            Log.error(error)
         }
     }
 
-    func sort<T: Object>(_ object: T.Type, by keyPath: String, ascending: Bool = true) -> Results<T> {
-        database!.objects(object).sorted(byKeyPath: keyPath, ascending: ascending)
+    static func sort<T: Object>(
+        _ object: T.Type,
+        by keyPath: String,
+        ascending: Bool = true
+    ) throws -> Results<T> {
+        do {
+            let database = try Realm()
+            Log.info("Realm is located at: \(String(describing: database.configuration.fileURL))")
+            return database.objects(object).sorted(byKeyPath: keyPath, ascending: ascending)
+        } catch {
+            Log.error(error)
+            throw error
+        }
     }
 }

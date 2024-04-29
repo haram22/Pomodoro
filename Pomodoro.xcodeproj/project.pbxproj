@@ -10,7 +10,7 @@
 		0DC41B452B8C9AB7002FB140 /* PomodoroRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC41B442B8C9AB7002FB140 /* PomodoroRouter.swift */; };
 		0DC5CE062B9EDFAC007A21E4 /* PomodoroStepStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC5CE052B9EDFAC007A21E4 /* PomodoroStepStateManager.swift */; };
 		0DF629662B691ABA00BFE39F /* TimerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF629652B691ABA00BFE39F /* TimerCollectionViewCell.swift */; };
-		1463FA632BBC409800AD706A /* OnBoardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1463FA622BBC409800AD706A /* OnBoardingManager.swift */; };
+		146CD3F22BCD75F200F5A197 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146CD3F12BCD75F200F5A197 /* HapticService.swift */; };
 		14DB05DB2B8D0629007AA0A3 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 14DB05DA2B8D0629007AA0A3 /* Realm */; };
 		14DB05DD2B8D0629007AA0A3 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 14DB05DC2B8D0629007AA0A3 /* RealmSwift */; };
 		14FE3C2A2B8DD380006D8C78 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB05DE2B8D06AC007AA0A3 /* DatabaseManager.swift */; };
@@ -53,6 +53,7 @@
 		CEDCA1212B67D131005C18EA /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CEDCA1202B67D131005C18EA /* Then */; };
 		CEDCA1242B67D18C005C18EA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CEDCA1232B67D18C005C18EA /* SnapKit */; };
 		CEDCA1292B67D1E4005C18EA /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = CEDCA1282B67D1E4005C18EA /* DGCharts */; };
+		CEE9C35D2BC8D1570084D218 /* OSLog+PrettyPrint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE9C35C2BC8D1570084D218 /* OSLog+PrettyPrint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +71,7 @@
 		0DC41B442B8C9AB7002FB140 /* PomodoroRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroRouter.swift; sourceTree = "<group>"; };
 		0DC5CE052B9EDFAC007A21E4 /* PomodoroStepStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroStepStateManager.swift; sourceTree = "<group>"; };
 		0DF629652B691ABA00BFE39F /* TimerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCollectionViewCell.swift; sourceTree = "<group>"; };
-		1463FA622BBC409800AD706A /* OnBoardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingManager.swift; sourceTree = "<group>"; };
+		146CD3F12BCD75F200F5A197 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
 		14DB05DE2B8D06AC007AA0A3 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		2123A9802BA9803C009C60BF /* BMHANNA_11yrs.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMHANNA_11yrs.otf; sourceTree = "<group>"; };
 		2123A9812BA9803C009C60BF /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
@@ -111,6 +112,7 @@
 		CEDCA0FB2B67D015005C18EA /* Option.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
 		CEDCA0FC2B67D015005C18EA /* DashBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoard.swift; sourceTree = "<group>"; };
 		CEDCA1332B67E11D005C18EA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEE9C35C2BC8D1570084D218 /* OSLog+PrettyPrint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OSLog+PrettyPrint.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,7 +182,7 @@
 				0DC41B422B82667A002FB140 /* PomodoroTimeManager.swift */,
 				14DB05DE2B8D06AC007AA0A3 /* DatabaseManager.swift */,
 				0DC5CE052B9EDFAC007A21E4 /* PomodoroStepStateManager.swift */,
-				1463FA622BBC409800AD706A /* OnBoardingManager.swift */,
+				146CD3F12BCD75F200F5A197 /* HapticService.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -304,6 +306,7 @@
 			children = (
 				CEDCA0ED2B67D015005C18EA /* UIColor+HexCode.swift */,
 				21DA85792B9DA43300495408 /* UILabelExtension.swift */,
+				CEE9C35C2BC8D1570084D218 /* OSLog+PrettyPrint.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				4DC3FBA82B8DDE3D002566F9 /* PomodoroTimeManager.swift in Sources */,
 				CEDCA1192B67D015005C18EA /* DashBoard.swift in Sources */,
 				14FE3C2A2B8DD380006D8C78 /* DatabaseManager.swift in Sources */,
+				146CD3F22BCD75F200F5A197 /* HapticService.swift in Sources */,
 				21D85CCD2B831E5B00E2FAA8 /* BreakViewController.swift in Sources */,
 				21B21B842B73E050008FFDCB /* DashboardBaseViewController.swift in Sources */,
 				CEDCA1172B67D015005C18EA /* Tag.swift in Sources */,
@@ -540,10 +544,10 @@
 				CEDCA10D2B67D015005C18EA /* MainPageViewController.swift in Sources */,
 				4DC3FBA32B846E40002566F9 /* ColorPaletteViewController.swift in Sources */,
 				CEDCA10A2B67D015005C18EA /* TagModalViewController.swift in Sources */,
+				CEE9C35D2BC8D1570084D218 /* OSLog+PrettyPrint.swift in Sources */,
 				CEDCA1092B67D015005C18EA /* TagCollectionView.swift in Sources */,
 				CEDCA10B2B67D015005C18EA /* TagCollectionViewCell.swift in Sources */,
 				0DF629662B691ABA00BFE39F /* TimerCollectionViewCell.swift in Sources */,
-				1463FA632BBC409800AD706A /* OnBoardingManager.swift in Sources */,
 				CEDCA1072B67D015005C18EA /* TimeSettingViewController.swift in Sources */,
 				213F30552B6BE73900FAF5F2 /* DashboardStatusCell.swift in Sources */,
 				4DC2298A2B7E2C0900D06ABB /* TagConfigurationViewController.swift in Sources */,
@@ -569,7 +573,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CH6R3C4FBD;
+				DEVELOPMENT_TEAM = 3XQ8HFGAQN;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
@@ -592,7 +596,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CH6R3C4FBD;
+				DEVELOPMENT_TEAM = 3XQ8HFGAQN;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;

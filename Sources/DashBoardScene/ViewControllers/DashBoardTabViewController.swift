@@ -11,8 +11,6 @@ import SnapKit
 import UIKit
 
 final class DashBoardTabViewController: UIViewController {
-    private let database = DatabaseManager.shared
-
     private enum SegmentItem: Int {
         case day
         case week
@@ -32,32 +30,17 @@ final class DashBoardTabViewController: UIViewController {
         setupSegmentedControl()
         setupContainerView()
         segmentChanged()
-        tagColorTest()
-    }
-
-    private func tagColorTest() {
-        let testTag: Tag
-        let data = database.read(Pomodoro.self)
-        let tagData = data.first?.currentTag
-        let test = database.read(Tag.self)
-        let tagColor = test.first?.tagName
-
-        if tagData == tagColor {
-            testTag = test.first!
-            print("-=> ", testTag.setupTagTypoColor())
-            print("type === ", type(of: testTag.setupTagTypoColor()))
-        }
-
-        print("---> ", test)
-        print(tagData)
-        print("color : ", tagColor)
     }
 
     private func caculateTotalParticipate() -> Int {
-        let data = database.read(Pomodoro.self)
-        let filteredData = data.filter { $0.participateDate < Date() }
-        let participateDates = Set(filteredData.map { Calendar.current.startOfDay(for: $0.participateDate) })
-        return participateDates.count
+        if let data = try? RealmService.read(Pomodoro.self) {
+            let filteredData = data.filter { $0.participateDate < Date() }
+            let participateDates = Set(filteredData.map { Calendar.current.startOfDay(for: $0.participateDate) })
+
+            return participateDates.count
+        } else {
+            return .zero
+        }
     }
 
     private func setupTopView() {

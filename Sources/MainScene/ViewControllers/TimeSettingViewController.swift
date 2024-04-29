@@ -170,8 +170,10 @@ final class TimeSettingViewController: UIViewController {
     }
 
     private func didTapConfirmButton() {
+        Log.debug("Selected Time: \(Int(centerIndexPath?.item ?? 0))")
         delegate?.didSelectTime(time: Int(centerIndexPath?.item ?? 0))
-        // router 시작..입니다..?
+        RealmService.createPomodoro(tag: "DEFUALT")
+        let data = (try? RealmService.read(Pomodoro.self).last) ?? Pomodoro()
         dismiss(animated: true)
     }
 

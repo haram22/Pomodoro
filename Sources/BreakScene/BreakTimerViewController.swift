@@ -5,15 +5,17 @@
 //  Created by 김하람 on 2/19/24.
 //
 
+import OSLog
 import RealmSwift
 import SnapKit
 import Then
 import UIKit
 
-final class BreakTimerViewController: UIViewController {
-    let database = DatabaseManager.shared
+final class BreakTimerViewController: UIViewController, TimeSettingViewControllerDelegate {
+    func didSelectTime(time _: Int) {}
+
     private var timer: Timer?
-    private var notificationId: String?
+    private var notificationId = UUID().uuidString
     private var currentTime = 0
     private lazy var maxTime: Int = stepManager.timeSetting.setUpBreakTime()
     private var timerHeightConstraint: Constraint?
@@ -63,20 +65,18 @@ final class BreakTimerViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-        let realmOption = database.read(Option.self).first
-        let isTimer = realmOption?.isTimerEffect
-        guard let isTimerEffect = isTimer else {
-            return print("it is optional")
-        }
         super.viewDidLoad()
         view.backgroundColor = .pomodoro.background
         navigationController?.isNavigationBarHidden = true
         addSubviews()
         setupConstraints()
         startTimer()
-        if isTimerEffect {
+
+        if let realmOption = try? RealmService.read(Option.self).first,
+           realmOption.isTimerEffect {
             startAnimationTimer()
         }
+
         setupLongPressGestureRecognizer()
     }
 
@@ -91,10 +91,7 @@ final class BreakTimerViewController: UIViewController {
         let minutes = (maxTime - currentTime) / 60
         let seconds = (maxTime - currentTime) % 60
         timeLabel.text = String(format: "%02d:%02d", minutes, seconds)
-
-        if let id = notificationId {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
-        }
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notificationId])
     }
 }
 
@@ -184,6 +181,12 @@ extension BreakTimerViewController {
             currentTime += 1
 
             if currentTime > maxTime {
+                Log.debug("Break Finish")
+                let isVibrate = try? RealmService.read(Option.self).first?.isVibrate
+                if isVibrate ?? false {
+                    HapticService.hapticNotification(type: .success)
+                }
+
                 timer.invalidate()
                 stepManager.router.moveToNextStep(
                     navigationController: self.navigationController ?? UINavigationController()
@@ -210,26 +213,6 @@ extension BreakTimerViewController {
                 self.view.layoutIfNeeded()
             }
         }
-    }
-
-    private func configureNotification() {
-        notificationId = UUID().uuidString
-        let content = UNMutableNotificationContent()
-        content.title = "시간 종료!"
-        content.body = "시간이 종료되었습니다. 휴식을 취해주세요."
-        let request = UNNotificationRequest(
-            identifier: notificationId!,
-            content: content,
-            trigger: UNTimeIntervalNotificationTrigger(
-                timeInterval: TimeInterval(maxTime),
-                repeats: false
-            )
-        )
-        UNUserNotificationCenter.current()
-            .add(request) { error in
-                guard let error else { return }
-                print(error.localizedDescription)
-            }
     }
 }
 
@@ -268,11 +251,5 @@ extension BreakTimerViewController {
             make.left.right.equalToSuperview()
             self.timerHeightConstraint = make.height.equalTo(0).constraint
         }
-    }
-}
-
-extension BreakTimerViewController: TimeSettingViewControllerDelegate {
-    func didSelectTime(time: Int) {
-        maxTime = time * 60
     }
 }

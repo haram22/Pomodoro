@@ -12,7 +12,6 @@ import UIKit
 final class LongBreakModalViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     weak var delegate: BreakTimeDelegate?
     weak var setLongDelegate: PomodoroBreakLongSelectionDelegate?
-    let database = DatabaseManager.shared
     private let pomodoroStep = PomodoroStepManger()
     private let label = UILabel().then {
         $0.text = "긴 휴식"
@@ -26,8 +25,8 @@ final class LongBreakModalViewController: UIViewController, UIPickerViewDelegate
     private var minutePicker: UIPickerView = .init()
 
     func confirmLongBreakInfo() {
-        let options = database.read(Option.self).first ?? Option()
-        database.update(options) { option in
+        let options = (try? RealmService.read(Option.self).first) ?? Option()
+        RealmService.update(options) { option in
             option.longBreakTime = self.tempLongBreakTime + 5
         }
         delegate?.updateTableViewRows()
@@ -46,7 +45,7 @@ final class LongBreakModalViewController: UIViewController, UIPickerViewDelegate
         minutePicker.dataSource = self
 
         minutePicker.selectRow(
-            (database.read(Option.self).first?.longBreakTime ?? 0) - 5,
+            ((try? RealmService.read(Option.self).first?.longBreakTime) ?? 0) - 5,
             inComponent: 0,
             animated: true
         )

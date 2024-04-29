@@ -12,9 +12,6 @@ import SnapKit
 import UIKit
 
 final class DashboardPieChartCell: UICollectionViewCell {
-    private let database = DatabaseManager.shared
-    let tags = DatabaseManager.shared.read(Tag.self)
-
     private var selectedDate: Date = .init()
     private var dayData: [String] = []
     private var priceData: [Double] = [10]
@@ -77,9 +74,9 @@ final class DashboardPieChartCell: UICollectionViewCell {
             to: startOfDay
         ) else { return [:] }
 
-        let sessions = database.read(Pomodoro.self).filter {
+        let sessions = (try? RealmService.read(Pomodoro.self).filter {
             $0.participateDate >= startOfDay && $0.participateDate < endOfDay
-        }
+        }) ?? []
 
         var focusTimePerTag = [String: Int]()
         for session in sessions {
@@ -114,9 +111,9 @@ final class DashboardPieChartCell: UICollectionViewCell {
 
     private func calculateFocusTimePerTag(from startDate: Date, to endDate: Date) -> [String: Int] {
         var focusTimePerTag = [String: Int]()
-        let filteredSessions = database.read(Pomodoro.self).filter {
+        let filteredSessions = (try? RealmService.read(Pomodoro.self).filter {
             $0.participateDate >= startDate && $0.participateDate < endDate
-        }
+        }) ?? []
         for session in filteredSessions {
             focusTimePerTag[session.currentTag, default: 0] += session.phase
         }
@@ -127,10 +124,15 @@ final class DashboardPieChartCell: UICollectionViewCell {
         let (startDate, endDate) = getDateRange(for: date, dateType: dateType)
         let focusTimePerTag = calculateFocusTimePerTag(from: startDate, to: endDate)
         let sortedFocusTimePerTag = focusTimePerTag.sorted { $0.value > $1.value }
-        var tagColors: [String: UIColor] = [:]
-        for tag in tags {
-            let color = tag.setupTagTypoColor()
-            tagColors[tag.tagName] = color
+
+        var tagColors: [String: UIColor] = [:] // MARK: tag color 사용
+
+        let tags = try? RealmService.read(Tag.self)
+        if let tags {
+            for tag in tags {
+                let color = tag.setupTagTypoColor()
+                tagColors[tag.tagName] = color
+            }
         }
         let pieChartDataEntries = sortedFocusTimePerTag.map { (tag: String, time: Int) -> PieChartDataEntry in
             let entryColor = tagColors[tag] ?? .gray

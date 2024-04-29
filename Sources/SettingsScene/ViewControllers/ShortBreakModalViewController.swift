@@ -12,7 +12,6 @@ import UIKit
 final class ShortBreakModalViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     weak var delegate: BreakTimeDelegate?
     weak var setShortDelegate: PomodoroBreakShortSelectionDelegate?
-    let database = DatabaseManager.shared
     private let label = UILabel().then {
         $0.text = "짧은 휴식"
         $0.font = .pomodoroFont.heading3()
@@ -27,8 +26,8 @@ final class ShortBreakModalViewController: UIViewController, UIPickerViewDelegat
     private var minutePicker: UIPickerView = .init()
 
     func confirmShortBreakInfo() {
-        let options = database.read(Option.self).first ?? Option()
-        database.update(options) { option in
+        let options = (try? RealmService.read(Option.self).first) ?? Option()
+        RealmService.update(options) { option in
             option.shortBreakTime = self.tempShortBreakTime + 1
         }
         delegate?.updateTableViewRows()
@@ -46,7 +45,7 @@ final class ShortBreakModalViewController: UIViewController, UIPickerViewDelegat
         minutePicker.delegate = self
         minutePicker.dataSource = self
         minutePicker.selectRow(
-            (database.read(Option.self).first?.shortBreakTime ?? 0) - 1,
+            ((try? RealmService.read(Option.self).first?.shortBreakTime) ?? 0) - 1,
             inComponent: 0,
             animated: true
         )
