@@ -12,7 +12,7 @@ import UIKit
 
 // TODO: TagModalViewController 에서 선택된 값들 메인뷰컨트롤러에 표시
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController{
     private let pomodoroTimeManager = PomodoroTimeManager.shared
     private let notificationId = UUID().uuidString
     private var longPressTimer: Timer?
@@ -338,9 +338,10 @@ extension MainViewController {
         longPressTime = 0.0
         stopTimeProgressBar.progress = 0.0
 
+        tagButton.isUserInteractionEnabled = false
         longPressGuideLabel.isHidden = false
         longPressGestureRecognizer.isEnabled = true
-        tagButton.isUserInteractionEnabled = false
+        
 
         // 강제종료 이후 정보 불러온 상황이 아닐때 (클릭 상황)
         if pomodoroTimeManager.isRestored == false {
@@ -484,7 +485,7 @@ extension MainViewController: TagModalViewControllerDelegate {
         let titleColor = TagCase(rawValue: tagColor)?.typoColor ?? .gray
 
         DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+            guard let self = self else { return }
             self.tagButton.setTitle(tagName, for: .normal)
             self.tagButton.backgroundColor = titleColor
             self.tagButton.setTitleColor(.white, for: .normal)
@@ -492,3 +493,4 @@ extension MainViewController: TagModalViewControllerDelegate {
         print("Selected Tag: \(tagName), Color: \(tagColor)")
     }
 }
+
