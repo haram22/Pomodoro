@@ -272,15 +272,12 @@ extension MainViewController {
 
             stopTimeProgressBar.isHidden = true
             longPressGuideLabel.isHidden = true
+            timeLabel.isUserInteractionEnabled = true
         }
     }
 
     @objc private func presentTimeSettingViewController() {
         Log.info("set pomodorotime")
-
-        if timeLabel.attributedText != nil {
-            timeLabel.attributedText = nil
-        }
 
         let timeSettingViewController = TimeSettingViewController(isSelectedTime: false, delegate: self)
         if let sheet = timeSettingViewController.sheetPresentationController {
@@ -341,7 +338,6 @@ extension MainViewController {
         tagButton.isUserInteractionEnabled = false
         longPressGuideLabel.isHidden = false
         longPressGestureRecognizer.isEnabled = true
-        
 
         // 강제종료 이후 정보 불러온 상황이 아닐때 (클릭 상황)
         if pomodoroTimeManager.isRestored == false {
@@ -380,6 +376,7 @@ extension MainViewController {
                 setUpPomodoroCurrentStep()
 
                 longPressGestureRecognizer.isEnabled = false
+                timeLabel.isUserInteractionEnabled = true
             }
 
             timeLabel.text = String(format: "%02d:%02d", minutes, seconds)
