@@ -345,9 +345,19 @@ extension MainViewController {
             // 이전 뽀모도로 끝난 경우
             if prevPomodoro?.phase == 0 || prevPomodoro == nil {
                 RealmService.createPomodoro(tag: "임시")
+                print("😆 \(currentPomodoro?.currentTag)")
             }
             currentPomodoro = try? RealmService.read(Pomodoro.self).last
         }
+
+        // 데이터를 저장할 새로운 코드 추가
+        if let currentPomodoro {
+            RealmService.update(currentPomodoro) { updatedPomodoro in
+                updatedPomodoro.currentTag = currentPomodoro.currentTag
+                updatedPomodoro.phase = 1
+            }
+        }
+        print("😆😆 \(currentPomodoro?.currentTag)")
 
         pomodoroTimeManager.startTimer(timerBlock: { [self] timer, currentTime, maxTime in
             setupUIWhenTimerStart(isStopped: false)
@@ -485,7 +495,16 @@ extension MainViewController: TagModalViewControllerDelegate {
             self.tagButton.setTitle(tagName, for: .normal)
             self.tagButton.backgroundColor = titleColor
             self.tagButton.setTitleColor(.white, for: .normal)
+            currentPomodoro?.currentTag = tagName
         }
+
+        if let currentPomodoro {
+            try? RealmService.update(currentPomodoro) { updatedPomodoro in
+                updatedPomodoro.currentTag = tagName
+            }
+        }
+        currentPomodoro?.currentTag = tagName
+        print("current Pomodoro = \(currentPomodoro?.currentTag ?? "..")")
         print("Selected Tag: \(tagName), Color: \(tagColor)")
     }
 

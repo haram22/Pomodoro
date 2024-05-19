@@ -19,7 +19,7 @@ class Pomodoro: Object {
     convenience init(
         id: Int,
         phase: Int = 1,
-        currentTag: String = "DEFAULT",
+        currentTag: String = "",
         participateDate: Date = Date.now,
         isSuccess: Bool = false
     ) {
