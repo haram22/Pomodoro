@@ -22,6 +22,7 @@ final class TimeSettingViewController: UIViewController {
     private var endTime: String?
     private var isSelectedCellBiggerfive: Bool = true
     private let stepManager = PomodoroStepManger()
+    var selectedTagName: String = "Failed"
 
     private weak var delegate: TimeSettingViewControllerDelegate?
 
@@ -176,7 +177,7 @@ final class TimeSettingViewController: UIViewController {
     private func didTapConfirmButton() {
         Log.debug("Selected Time: \(Int(centerIndexPath?.item ?? 0))")
         delegate?.didSelectTime(time: Int(centerIndexPath?.item ?? 0))
-        RealmService.createPomodoro(tag: "DEFUALT")
+        RealmService.createPomodoro(tag: selectedTagName)
 //        let data = (try? RealmService.read(Pomodoro.self).last) ?? Pomodoro()
         dismiss(animated: true)
     }
@@ -352,5 +353,15 @@ extension TimeSettingViewController: UIScrollViewDelegate, UICollectionViewDeleg
         minimumLineSpacingForSectionAt _: Int
     ) -> CGFloat {
         0
+    }
+}
+
+extension TimeSettingViewController: TagModalViewControllerDelegate {
+    func tagSelected(tagName: String, tagColor _: String) {
+        selectedTagName = tagName
+    }
+
+    func tagDidRemoved(tagName _: String) {
+        print("removed")
     }
 }

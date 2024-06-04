@@ -19,7 +19,6 @@ final class MainViewController: UIViewController {
     private var currentPomodoro: Pomodoro?
     private var needOnboarding = false
     private let longPressGestureRecognizer = UILongPressGestureRecognizer()
-
     var stepManager = PomodoroStepManger()
 
     private lazy var currentStepLabel = UILabel().then {
