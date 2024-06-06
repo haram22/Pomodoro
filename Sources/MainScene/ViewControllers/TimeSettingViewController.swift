@@ -175,6 +175,8 @@ final class TimeSettingViewController: UIViewController {
     }
 
     private func didTapConfirmButton() {
+        let modalViewController = TagModalViewController()
+        modalViewController.selectionDelegate = self
         Log.debug("Selected Time: \(Int(centerIndexPath?.item ?? 0))")
         delegate?.didSelectTime(time: Int(centerIndexPath?.item ?? 0))
         RealmService.createPomodoro(tag: selectedTagName)
@@ -359,6 +361,7 @@ extension TimeSettingViewController: UIScrollViewDelegate, UICollectionViewDeleg
 extension TimeSettingViewController: TagModalViewControllerDelegate {
     func tagSelected(tagName: String, tagColor _: String) {
         selectedTagName = tagName
+        print("🤧 ==== ")
     }
 
     func tagDidRemoved(tagName _: String) {
